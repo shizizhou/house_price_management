@@ -8,17 +8,14 @@ from model import Base, User, Property
 app = Flask(__name__)
 app.secret_key = 'aabbccddeeffgghh'
 
-# 设置数据库
 engine = create_engine('sqlite:///house_price_management.db', connect_args={"check_same_thread": False})
 Base.metadata.create_all(engine)
 Session = sessionmaker(bind=engine)
 
-# 启用登录管理
 login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = 'login'
 
-# 跨域支持
 CORS(app, origins=["http://localhost:5173"], supports_credentials=True)
 
 @login_manager.user_loader
@@ -50,7 +47,7 @@ def register():
 @cross_origin(origins="http://localhost:5173", supports_credentials=True)
 def login():
     if request.method == 'OPTIONS':
-        return '', 200  # 处理预检请求
+        return '', 200  
 
     session = Session()
     data = request.get_json()
