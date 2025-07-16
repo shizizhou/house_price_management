@@ -1,0 +1,22 @@
+<h2>欢迎，{{ username }}</h2>
+<a href="/logout">退出登录</a> |
+<a href="/create">新增房产</a>
+
+<h3>我的房产：</h3>
+{% if properties %}
+    <ul>
+    {% for p in properties %}
+        <li>{{ p.title }} - {{ p.location }} - {{ p.price }} 元 - {{ p.size }}㎡</li>
+        <form
+              method="POST"
+              action="/delete"
+              onsubmit="return confirm('确定删除这条房产吗？');"
+            >
+              <input type="hidden" name="property_id" value="{{ p.id }}" />
+              <button type="submit">删除</button>
+            </form>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>您还没有添加房产。</p>
+{% endif %}
